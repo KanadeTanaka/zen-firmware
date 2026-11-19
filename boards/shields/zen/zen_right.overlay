@@ -2,6 +2,15 @@
 #include <input/processors.dtsi>
 #include <dt-bindings/zmk/input_transform.h>
 
+// 文字入力中のトラックボール誤反応対策:
+// 打鍵の振動でボールがわずかに動いてもレイヤー1(マウス)に入らないよう、
+// 最後の打鍵から400msはオートマウスレイヤーを無効にする。
+// zip_temp_layer は全スニペット共通のノードなので、ここで設定すれば
+// PMW3610 / PAW3222 / 左トラックボール のどの構成にも効く。
+&zip_temp_layer {
+    require-prior-idle-ms = <400>;
+};
+
 &pointing_listener {
     input-processors =
         <&zip_xy_transform (INPUT_TRANSFORM_X_INVERT | INPUT_TRANSFORM_Y_INVERT)>,
